@@ -1,5 +1,5 @@
-# test
-测试本地git拉github
+# respo
+配置信息的版本拉取测试
 
 # redis
 Redis配置类、工具类及测试
