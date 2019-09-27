@@ -1,4 +1,4 @@
 # test
 测试本地git拉github
-# Redis
-Redis配置及工具类
+# redis
+Redis配置类、工具类及测试
