@@ -3,14 +3,12 @@ package com.zj.stream;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zj.stream.constants.MyKey;
 import com.zj.stream.pojo.Student;
-import com.zj.stream.util.RsaUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.apache.commons.codec.binary.Base64;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +22,6 @@ public class StreamApplicationTests {
     String publicKeyBase64 = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCNzRJfYOom5gktTkaTZshIPSm5N+zRGSVr6eWdLaTueFuwSHbO/5egT6HdqtIXTTxD4J1QpUsi7Oq8j3WC7CajxrZnyHdmE1h8HselMuiL5N1FD3k1VS/vxjYPtYJW7FaypgjhgijFwWl+szyBtvli3wvS1rBYFRue9PeTL7RsSQIDAQAB";
 
     @Autowired
-    //@Qualifier("myKey")
     private MyKey myKey;
 
     @Test
@@ -99,11 +96,5 @@ public class StreamApplicationTests {
         System.out.println(appendStr);
     }
 
-    @Test
-    public void testD() throws Exception {
-        String str = "BmSF37qGRRa9LK+/IE1qn02IZm6WI6ZYbTAUXE+pQ9npoPulFo602kRp+jqA5fkzarSXxsI2gk6eMU/IHL/0p+gh+XkjB/GyqRR3qOCQO0ho+6InQC5F117BG1YHKnfUware+OGnZ1X7ohWHDeGAIGmstIGSEBZSRA6x0J6L9xx7fB7+wIMQQ1J8vUD2Vp+90WaIpwdAeiI1jINT9JVbeiaBnVLXF3ezhjv4hPJPyYB++3TMXuJGsysdBWCW+jQVh9iUaMbxZoYQhglcIai1LyL4ZZKNbLbotOqzTOVUjWsOb2W6u8a15MSWg4xhhpR2Jpqv41h9u7dTDHRi/Fo3RzOtDx46ctr2phs3bKpewX+yOGGETa0kAa1mUT03gN/ecDbqvLYbV0ZVirIu7hofkRrpW1ScAauPUcSD6KZ0mlNMm7XkHSA8y5ApKQHS4wJmLHpiYbFubTFRQcfQkxnvnlb5h0kqxw99CE9HAAeN1wWF+tIgYOjGCJMBaBSl26Ea+V1vMEQ7sGT/eEPOO8dPKuVrrg8+BYI0pxOf52nbCKSl6lyddM3Gkvq0SyTCV5yHzTKLUfYSLC0pVNfmxk2EDAoAKhs/s8WnhYbWuJDIZ/LMjbyz/2t5nIghHN1LsiG1LsXEFUeC0ovYBtGzMtxv/3MoFKvItTdf5mlflJT5bqFK9dZ1+IEi/THXMnIncQ4h0+UMS7UkacYX9paPt6e2STVC95WGxgzOg77DiXOdzaG/RnwLBCDZbGSJhPjpq7gHkp27QeWE0kMifeFzyoi1tmLi4Ref8bB7xj0DtEQIix0je+JBBKyABttpaA2X6GSNQBxB/HZgeDPm5GhcfHfOcBN1ZantJcLVUN8Edkn7Q+oymN8r+LxLESrePX1QgsxQpmJ3IJdmPxBlZGOAbcjuzQI4UDN00R6WKeDgdUPIWMdq8Wm7IBMdJ6iZ1++FgGUcNyRDXJeMYu2T6tSipnPiPKn7Ezf0lHDTAohYMVcpO/GsZ9q4uWGLP8YkxWJFrEE+jMV/+GgvNghdgsJ4jU6KoptdWsOI6RZw88El38wCAlQHYVEN41wOMIEiuJpDfvYohJD5+bjVoJzFUOOhjEKtyH/YJAFMD02bUef7pTlW866QbyZqdFQ6aJPZRxtkeIzteBgUQnHlDen93sp+JVj13uhK/UaiR4o6bA6nqRMLQkcrWe37s50XJCms8tuvh/YTQduP4G1jT2enPa7xmvUu1bQQz7XgSEhBrWwLQKPHeT6++xdl3ToRtm44g4aF3xtgJ3l2uA/BXXqpZ8P8rlC1a0p9C1TOaQ4JT/uurmgitzOjJnkhh7efaA+WehNEuDV8O1IOYFq0fpO6zzfSUxPkR3o2Wml67UWffgtJeNg1QSKJwANQAEsLD3rvFc6aHeYwANiMKOWtA0ia07+Qhqr5Ub35Y0XJbZu9ftJM8i7Zz1TfJR7UGTl8qtgvftfT/B2EX0p8ibKVyGHk3UCnHXBWzj4jjpBO4G82Jpjjr2wAbo4En3IyHbt/e4BOli1T2JXW6nKRhDLecGDbtV+xH9x9CVi0+NMkkl5bOiUfISK2aF6hQFp9BajJUv2ha/TNRoEps3B0aAytCSHcA6ZMcFvfbewVy+82uXrX5ilxpdfkXhetYG01iDmR5i4TvbAH2vkZhdtz8CABaQdyfMUEoTJulrAtZ+gU5YIOCT96HQAEnlE=";
-        String s = RsaUtil.decryptByPrivateKey(str, Base64.decodeBase64(privateKeyBase64), transformation);
-        System.out.println("解密报文："+s);
-    }
 
 }

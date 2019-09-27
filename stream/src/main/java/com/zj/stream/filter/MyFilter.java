@@ -30,7 +30,7 @@ import java.util.Map;
 
 //@Component
 @Configuration
-@EnableConfigurationProperties({MyKey.class})
+//@EnableConfigurationProperties({MyKey.class})
 public class MyFilter implements Filter {
     //秘钥对可以在linux服务器上生成
     String transformation = "RSA";

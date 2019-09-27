@@ -26,7 +26,7 @@ public class myController {
      @PostMapping(value = "/text")
      public String miya(String name, @RequestParam(defaultValue = "18") int age,String id,String ok){
         System.out.println("controller业务逻辑");
-        System.out.println(myKey.getPrivateKeyBase64());
+        System.out.println("私钥是："+myKey.getPrivateKeyBase64());
         return "我的名字是"+name+",年龄"+age+",学号"+id+",ok="+ok;
     }
 }

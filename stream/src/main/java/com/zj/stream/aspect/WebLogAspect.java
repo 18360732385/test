@@ -31,6 +31,8 @@ import java.util.*;
 class WebLogAspect {
 
     private Logger logger = LoggerFactory.getLogger(WebLogAspect.class);
+    //请求流水号
+    private String requestId;
 
     @Pointcut("execution(public * com.zj.stream.controller..*.*(..))")
     public void webLog() {
@@ -38,6 +40,8 @@ class WebLogAspect {
 
     @Before("webLog()")
     public void doBefore(JoinPoint joinPoint) throws Throwable {
+        requestId = UUID.randomUUID().toString();
+
         // 接收到请求，记录请求内容
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
@@ -65,21 +69,28 @@ class WebLogAspect {
             headArgs.put(name,header);
         }
 
-        // 记录下请求内容
-        logger.info("URL : " + request.getRequestURL().toString());
-        logger.info("HTTP_METHOD : " + request.getMethod());
-        logger.info("IP : " + request.getRemoteAddr());
-        logger.info("CLASS_METHOD : " + methodSignature.getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
-        logger.info("HEADARGS : "+headArgs+"】");
-        logger.info("ARGS : "+args);
+        //打印日志
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append("\n").append("======"+requestId+"======").append("\n")
+                    .append("URL : " + request.getRequestURL().toString()).append("\n")
+                    .append("HTTP_METHOD : " + request.getMethod()).append("\n")
+                    .append("IP : " + request.getRemoteAddr()).append("\n")
+                    .append("CLASS_METHOD : " + methodSignature.getDeclaringTypeName() + "." + joinPoint.getSignature().getName()).append("\n")
+                    .append("HEADARGS : "+headArgs).append("\n")
+                    .append("ARGS : "+args).append("\n");
+        logger.error(stringBuffer.toString());
+
         //logger.info("PARAME :"+Arrays.toString(parameterNames));
         //logger.info("ARGS : " + Arrays.toString(joinPoint.getArgs()));
     }
 
     @AfterReturning(returning = "ret", pointcut = "webLog()")
     public void doAfterReturning(Object ret) throws Throwable {
-        // 处理完请求，返回内容
-        logger.info("RESPONSE : " + ret);
+        //打印返回报文
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append("\n").append("======"+requestId+"======").append("\n")
+                    .append("RESPONSE : " + ret).append("\n");
+        logger.error(stringBuffer.toString());
     }
 
 
