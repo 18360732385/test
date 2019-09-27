@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisClusterConfiguration;
@@ -23,6 +24,7 @@ import org.springframework.data.redis.connection.RedisNode;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.stereotype.Component;
 import redis.clients.jedis.JedisPoolConfig;
 
 import java.util.HashSet;
@@ -55,10 +57,10 @@ public class RedisConfig {
         @Value("${redis.testWhileIdle}")
         private boolean testWhileIdle;
 
-        @Value("${spring.redis.cluster.nodes}")
+        @Value("${redis.cluster.nodes}")
         private String clusterNodes;
 
-        @Value("${spring.redis.password}")
+        @Value("${redis.password}")
         private String password;
 
         /**
@@ -70,6 +72,7 @@ public class RedisConfig {
             JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
             // 最大空闲数
             jedisPoolConfig.setMaxIdle(maxIdle);
+            System.out.println("============"+maxIdle+"=========");
             // 连接池的最大数据库连接数
             jedisPoolConfig.setMaxTotal(maxTotal);
             // 最大建立连接等待时间

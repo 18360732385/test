@@ -9,6 +9,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -18,24 +19,16 @@ public class RedisApplicationTests {
 
     @Test
     public void contextLoads() {
-        //=====================testString======================
-        redisUtil.set("name", "how2java");
-        System.out.println(redisUtil.get("name"));
-        redisUtil.del("name");
-        System.out.println(redisUtil.get("name"));
+        Map<String, Object> map = new HashMap<>();
+        map.put("name","小明");
+        map.put("age",20);
+        map.put("action","阅读");
 
-        //=====================testNumber======================
-        long incr = redisUtil.incr("number", 1);
-        System.out.println(incr);
-        incr =redisUtil.incr("number", 1);
-        System.out.println(incr);
+        System.out.println("====="+redisUtil.hkeys("good"));
+//        for (Map.Entry<Object, Object> entry:entries) {
+//            System.out.println(entry.getKey().toString()+"======="+entry.getValue().toString() );
+//        }
 
-        //=====================testMap======================
-        Map<String,Object> map=new HashMap<>();
-        map.put("name", "meepo");
-        map.put("pwd", "password");
-        redisUtil.hmset("user", map);
-        System.out.println(redisUtil.hget("user","name"));
     }
 
 }

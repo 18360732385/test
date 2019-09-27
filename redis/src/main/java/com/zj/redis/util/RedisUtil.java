@@ -49,7 +49,7 @@ public  class RedisUtil {
     /**
      * 根据key 获取过期时间
      * @param key 键 不能为null
-     * @return 时间(秒) 返回0代表为永久有效
+     * @return 时间(秒) 返回-1代表为永久有效,返回-2代表无此key
      */
     public long getExpire(String key){
         return redisTemplate.getExpire(key,TimeUnit.SECONDS);
@@ -170,6 +170,15 @@ public  class RedisUtil {
     }
 
     /**
+     * 获取hashKey的所有key
+     * @param key 键 不能为null
+     * @return item
+     */
+    public Set<Object> hkeys(String key){
+        return redisTemplate.opsForHash().keys(key);
+    }
+
+    /**
      * 获取hashKey对应的所有键值
      * @param key 键
      * @return 对应的多个键值
@@ -183,6 +192,7 @@ public  class RedisUtil {
      * @param key 键
      * @param map 对应多个键值
      * @return true 成功 false 失败
+     * 有问题!!!
      */
     public boolean hmset(String key, Map<String,Object> map){
         try {
@@ -236,7 +246,7 @@ public  class RedisUtil {
      * @param key 键
      * @param item 项
      * @param value 值
-     * @param time 时间(秒)  注意:如果已存在的hash表有时间,这里将会替换原有的时间
+     * @param time 时间(秒)  注意:如果已存在的hash表有时间,这里将会替换原有的时间,是整张hash表,不是单个属性!!!
      * @return true 成功 false失败
      */
     public boolean hset(String key,String item,Object value,long time) {
