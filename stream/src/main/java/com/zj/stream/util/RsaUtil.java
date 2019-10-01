@@ -1,11 +1,8 @@
 package com.zj.stream.util;
 
 import com.alibaba.fastjson.JSONObject;
-import com.zj.stream.constants.MyKey;
 import org.apache.commons.codec.binary.Base64;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.crypto.Cipher;
 import java.security.*;

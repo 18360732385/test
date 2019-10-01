@@ -16,8 +16,8 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 /**
- * 解决Filter中注入Bean失败
- * Created by hoaven on 2018/5/30.
+ * 解决Filter中注入Bean失败（貌似没用）
+ *
  */
 @Component
 public class SpringUtils implements ApplicationContextAware {

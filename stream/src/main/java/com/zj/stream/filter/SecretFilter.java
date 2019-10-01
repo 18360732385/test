@@ -10,15 +10,13 @@
  */
 package com.zj.stream.filter;
 
-import com.zj.stream.constants.MyKey;
+import com.zj.stream.constants.SecretKey;
 import com.zj.stream.util.RequestWrapper;
 import com.zj.stream.util.ResponseWrapper;
 import com.zj.stream.util.RsaUtil;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,29 +26,34 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 报文加解密过滤器
+ * 关于过滤器中无法注入bean问题，需要设置改bean的变量为staric属性
+ */
 //@Component
-@Configuration
 //@EnableConfigurationProperties({MyKey.class})
-public class MyFilter implements Filter {
-    //秘钥对可以在linux服务器上生成
-    String transformation = "RSA";
-    String privateKeyBase64 = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAI3NEl9g6ibmCS1ORpNmyEg9Kbk37NEZJWvp5Z0tpO54W7BIds7/l6BPod2q0hdNPEPgnVClSyLs6ryPdYLsJqPGtmfId2YTWHwex6Uy6Ivk3UUPeTVVL+/GNg+1glbsVrKmCOGCKMXBaX6zPIG2+WLfC9LWsFgVG57095MvtGxJAgMBAAECgYBdGUr6vBJ/v4A+8ql7lXvhkeaW6JTfI/dhxosuiw1CVFs+fhUjCsRuSFopw0F0cw0iM5KVpDCUmZ/0dOveLVWgLemebb5sMPTEwvVTEsamY4ku/1FcwOVw3wxjXguRcbgLzsri6iHlbiOblNoZaazw64obEZ6jX+zB9oWomssCUQJBANRjDxbNqSoEeqaB1MzcvQQPPybwpDh1PCX3cEG/l6VG2gNTO44DwqMle13zpVc7lGxQikzpHBLzHNKZw70TuvMCQQCq62SMpsBp2594KkRkRlhrk3zThGzs1XDMBrrOUfgl8wqAERh3PtYLMmps4fd1PcFbLUlHD5+W+B1mUDPsEtLTAkEAwm4c9ic4YfrPvXbFtPWvI/RBQAi0jerlMWygG9ClpuyB0OF1d8EBghFiKtRN3NnyOmZQ9a/Bv6dID5QsmP9i+QJAdE+XrzdSvTbdgHKS9AIC7cICMhZt4YUmK1FxEjIpwflwbdI0agFyu0/lqI7lTP1ndVqOATOakKvrpdJyYvY0TQJAGjp9n8rpaB0nN8e3MMq5I2msJhKvkQR5fzw+MvARXJxxpdA6Ms/d+IGLu2B6JjEYXhXnbtiQHHdd3HkTN8p/1w==";
-    String publicKeyBase64 = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCNzRJfYOom5gktTkaTZshIPSm5N+zRGSVr6eWdLaTueFuwSHbO/5egT6HdqtIXTTxD4J1QpUsi7Oq8j3WC7CajxrZnyHdmE1h8HselMuiL5N1FD3k1VS/vxjYPtYJW7FaypgjhgijFwWl+szyBtvli3wvS1rBYFRue9PeTL7RsSQIDAQAB";
+@Configuration
+public class SecretFilter implements Filter {
+
+    String transformation = "RSA";//加密算法
 
     @Autowired
-    MyKey myKey;
+    SecretKey secretKey;
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-        System.out.println("my filter 初始化");
-//        if (null==myKey){
-//            myKey= (MyKey) SpringUtils.getBean("MyKey");
-//        }
+    public void init(FilterConfig filterConfig)  {
+        System.out.println("SecretFilter 初始化");
+//        System.out.println("init私钥: "+myKey.privateKeyBase64);
+        System.out.println("init测试私钥是否为空: "+ SecretKey.privateKeyBase64);
+
     }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        System.out.println("my filter 启动");
+        System.out.println("SecretFilter 启动");
+
+        System.out.println("doFilter测试私钥是否为空： "+ SecretKey.privateKeyBase64);
+
         long start = new Date().getTime();
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;
@@ -69,17 +72,17 @@ public class MyFilter implements Filter {
             response.reset();//很重要，清除空行？
             response.getWriter().write(responseEnCrypt);
         } catch (Exception e) {
-            System.out.println("加密错误：" + e);
+            System.out.println("SecretFilter加密错误：" + e);
         }
 
 
-        System.out.println("my filter 耗时:" + (new Date().getTime() - start));
-        System.out.println("my filter 结束");
+        System.out.println("SecretFilter 耗时:" + (new Date().getTime() - start));
+        System.out.println("SecretFilter 结束");
     }
 
     @Override
     public void destroy() {
-        System.out.println("my filter 销毁");
+        System.out.println("SecretFilter 销毁");
     }
 
     /**
@@ -96,7 +99,7 @@ public class MyFilter implements Filter {
 
             String privateDecryptResult = null;
             try {
-                privateDecryptResult = RsaUtil.decryptByPrivateKey(parameter, Base64.decodeBase64(privateKeyBase64), transformation);
+                privateDecryptResult = RsaUtil.decryptByPrivateKey(parameter, Base64.decodeBase64(SecretKey.privateKeyBase64), transformation);
                 args.put(name, privateDecryptResult);
                 System.out.println("私钥解密:" + name + "===" + privateDecryptResult);
             } catch (Exception e) {
@@ -127,7 +130,7 @@ public class MyFilter implements Filter {
             System.out.println("响应报文原文:" + str);
 
             try {
-                ciphertext = RsaUtil.encryptByPublicKey(str, Base64.decodeBase64(publicKeyBase64), transformation);
+                ciphertext = RsaUtil.encryptByPublicKey(str, Base64.decodeBase64(SecretKey.publicKeyBase64), transformation);
                 System.out.println("响应报文加密:" + ciphertext);
             } catch (Exception e) {
                 e.printStackTrace();

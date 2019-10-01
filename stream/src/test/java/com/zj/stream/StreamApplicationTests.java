@@ -1,7 +1,7 @@
 package com.zj.stream;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.zj.stream.constants.MyKey;
+import com.zj.stream.constants.SecretKey;
 import com.zj.stream.pojo.Student;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,16 +18,14 @@ import java.util.stream.Collectors;
 @SpringBootTest
 public class StreamApplicationTests {
     static String transformation = "RSA";
-    static String privateKeyBase64 = "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCt/jN0CE5qmlCfXDiQco6KlM/JwNyIqgsnSCEo0T0JRwUa9NEvPtDcHUJHlQ1fMHI0ARm46fzHWm93yFWEZrrTZdUklHN6zkEgPHScJ+SyE+STI9yBv/KzrDimly07tPIFm4xXeNYRP2lhJ4qvj0ilrwai/5CPVHmFJYclQsfdhDK/MzU2ss9R8BYTJHu2grboD9C7YC43RPzhXbmvW74QES8mtLuB6F49t0u3p3P85g6mFdhvQ6HINk3j7O6VMgCaK/KRiqMQ0vFWgSWiflrOUth+r5fKbs2Txo8/XtzoYDYmx3e1lEZlF8pZ372J7XX4fyQqraMDuDMGgy1qBOu9AgMBAAECggEANS1iEG6ReOddCLeo2g0JH7XHpAP74xEFg6X57H22x+Ua3FhCrsvmDcArh7E4ewVVgitr7yYkidFMDDIAYQz8wKt470sn2Dq9kNqpUSioLv0BeS8Wr9k4lk1mqxO9UWhGKAyYYguecXsN/BGXw3xpWaoavyqYxhWtZlJH8c1tRHgnzcOOGMgEy/jC5S7MM+NVgWWTswzZkpTJennT5YfcAt96D4wl3WEBOcYwnzYfHfA2+YMVHjvIz1Z1pfD8RVSS4w+6bL1Y5VTwDyknVm6E9DhkhvhPqEdaEl7gxaK31GkWjFUpScYF3KPCRAhWHf5zTPLZuxeG83cBQgd5EyQDCQKBgQDfDnCDerL9JBZ7NJKM/KADP6HTABv9XlxuW10VGoZjMAZgVW/LGQ5eff5cKL3mv31MCCX+liXlvRcyCLCgkKG7fEuSwvBHBIqFFLV9RNkwAk+6Juk9XspueRBgrqf9lc8GP/k8mlC0inN0SaNyB0HeZB0sKyuLqiEjblnVj7f9YwKBgQDHsLe0XOiQtz/kQfUrtRyHrrrDrEe8ZUnX+LTflfyfoG0A+13ehcAsjG15AsyjJTyG4gHC+qrFOzZbeWcrP/vOGzXO0Lo9Vvnnvn7QHpYehJNhBAy3Z//aKWXAFMxGOCZ0dyFjRwjIV9J9LOhzaG/P+e/t8/1FtMTiPBrI09HMXwKBgQCt2E0szAaQcP3sjG7j30i+/2saTm2CLXcQs7h6aC/xQk7V6gC1ZBPk5YHHRiGro/b9uSQTpeZnhdZ8MnWmztKekyM7gR9P2mQzkI5a0bwMRODqjsUeBbD0JPr0v2tCou21S0rvRr471+Rf77ypdKqLr69k60iHE9O8D5eIcPjPTQKBgG5hTopSOPOVd6myk9T/HbAac34pwtVun6zT+xcED0olIVvDlpWkFSAK15BmbbtYn+ZnE1Y1vSOcoWVa7B5KFeRNwiZ51hiF9UmWUP61iYGBAv5DgMv4nsJ205mjZW8DJq6GE1yPLVmgwecTZcI1Xmj13RwJHFzlmVb8pkmQXI29AoGAZT55Fx1cdwZoazuudA+/0oHVtn+DVPI1HZKyx7ZYVKUQzADJfm7GDDKh4iZtJKaTUxs/mz0fFb5nEX9J6XHSiW5mi97llB+5YBqPyjVagTc+37YdAqYrt+orOmmJVnK2o3G4I/7pbjO3uRHTcZhBRADAKr7vQEtCpwc7ChYoVhA=";
-    String publicKeyBase64 = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCNzRJfYOom5gktTkaTZshIPSm5N+zRGSVr6eWdLaTueFuwSHbO/5egT6HdqtIXTTxD4J1QpUsi7Oq8j3WC7CajxrZnyHdmE1h8HselMuiL5N1FD3k1VS/vxjYPtYJW7FaypgjhgijFwWl+szyBtvli3wvS1rBYFRue9PeTL7RsSQIDAQAB";
 
     @Autowired
-    private MyKey myKey;
+    private SecretKey secretKey;
 
     @Test
     public void propsTest() throws JsonProcessingException {
-        System.out.println("私钥: " + myKey.getPrivateKeyBase64());
-        System.out.println("公钥: " + myKey.getPublicKeyBase64());
+        System.out.println("私钥: " + secretKey.privateKeyBase64);
+        System.out.println("公钥: " + secretKey.publicKeyBase64);
     }
 
     @Test

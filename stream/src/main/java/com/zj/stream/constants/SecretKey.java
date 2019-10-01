@@ -13,19 +13,15 @@ package com.zj.stream.constants;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-@Component
+/**
+ * 配置信息加载java类，一定要有set方法,变量设置为static
+ * 如果想在filter中加载此类，注入bean，或者直接在doFilter里使用
+ */
+@Component()
 @ConfigurationProperties(prefix="key")
-public class MyKey {
-    private String privateKeyBase64;
-    private String publicKeyBase64;
-
-    public String getPrivateKeyBase64() {
-        return privateKeyBase64;
-    }
-
-    public String getPublicKeyBase64() {
-        return publicKeyBase64;
-    }
+public class SecretKey {
+    public static  String privateKeyBase64 ;
+    public static String publicKeyBase64;
 
     public void setPrivateKeyBase64(String privateKeyBase64) {
         this.privateKeyBase64 = privateKeyBase64;

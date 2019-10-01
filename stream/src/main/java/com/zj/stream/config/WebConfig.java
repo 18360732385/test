@@ -10,7 +10,7 @@
  */
 package com.zj.stream.config;
 
-import com.zj.stream.filter.MyFilter;
+import com.zj.stream.filter.SecretFilter;
 import com.zj.stream.interceptor.MyInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -39,8 +39,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean
     public FilterRegistrationBean timeFilter() {
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
-        MyFilter myFilter = new MyFilter();
-        filterRegistrationBean.setFilter(myFilter);
+        SecretFilter secretFilter = new SecretFilter();
+        filterRegistrationBean.setFilter(secretFilter);
 //        Map<String,String> m = new HashMap<String,String>();
 //        m.put("targetBeanName","MyKey");
 //        m.put("targetFilterLifecycle","true");
