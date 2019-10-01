@@ -97,7 +97,7 @@ public class OneSecretUtil {
 	
 	/**
 	 * 进行数据签名验证
-	 * @param content 签名原文内容
+	 * @param content 签名明文
 	 * @param sign 签名结果
 	 * @param salt 签名盐
 	 * @return true:验签成功    false:验签失败

@@ -10,12 +10,14 @@
  */
 package com.zj.stream.filter;
 
+import com.zj.stream.constants.SecretConstant;
+import com.zj.stream.util.RequestWrapper;
 import com.zj.stream.util.ResponseWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -38,38 +40,42 @@ public class LogFilter implements Filter {
 
         long start = System.currentTimeMillis();
 
-        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        RequestWrapper requestWrapper = (RequestWrapper) servletRequest;
         ResponseWrapper responseWrapper = (ResponseWrapper) servletResponse;
         
         //头部参数
         HashMap<String, Object> headArgs = new HashMap<>();
-        Enumeration<String> headerNames = request.getHeaderNames();
+        Enumeration<String> headerNames = requestWrapper.getHeaderNames();
         while(headerNames.hasMoreElements()){
             String name = headerNames.nextElement();
-            String header = request.getHeader(name);
+            String header = requestWrapper.getHeader(name);
             headArgs.put(name,header);
         }
 
+        //取出decryptContent
+        String decryptContent = requestWrapper.getParameter(SecretConstant.DECRYPTCONTENT);
+
         HashMap<String, Object> args = new HashMap<>();
-        Enumeration<String> parameterNames = request.getParameterNames();
+        Enumeration<String> parameterNames = requestWrapper.getParameterNames();
         while(parameterNames.hasMoreElements()){
             String name = parameterNames.nextElement();
-            String parameter = request.getParameter(name);
+            String parameter = requestWrapper.getParameter(name);
             args.put(name,parameter);
         }
+        System.out.println("agrs: "+args);
 
         try{
-            filterChain.doFilter(request,responseWrapper);
+            filterChain.doFilter(requestWrapper,responseWrapper);
         }finally {
             byte[] content = responseWrapper.getResponseData();
 
             StringBuffer logBuffer = new StringBuffer();
-            logBuffer.append("\n").append("===========globalId："+request.getAttribute("globalId")+"===========")
-                    .append("\n").append("URL : " + request.getRequestURL().toString())
-                    .append("\n").append("HTTP_METHOD : " + request.getMethod())
-                    .append("\n").append("IP : " + request.getRemoteAddr())
+            logBuffer.append("\n").append("===========globalId："+requestWrapper.getAttribute("globalId")+"===========")
+                    .append("\n").append("URL : " + requestWrapper.getRequestURL().toString())
+                    .append("\n").append("HTTP_METHOD : " + requestWrapper.getMethod())
+                    .append("\n").append("IP : " + requestWrapper.getRemoteAddr())
                     .append("\n").append("HEADARGS : "+headArgs)
-                    .append("\n").append("ARGS : "+args)
+                    .append("\n").append("ARGS : "+decryptContent)
                     .append("\n").append("RESPONSE : "+new String(content,"UTF-8"))
                     .append("\n").append("TIME : "+(System.currentTimeMillis() - start)+"ms")
                     .append("\n");

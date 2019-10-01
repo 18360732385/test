@@ -17,11 +17,16 @@ import org.springframework.stereotype.Component;
  * yml配置信息加载java类，一定要有set方法,变量设置为static
  * 如果想在filter中加载此类，注入bean，或者直接在doFilter里使用
  */
-@Component()
+@Component
 @ConfigurationProperties(prefix="key")
 public class SecretKey {
-    public static  String privateKeyBase64 ;
+    public static  String privateKeyBase64;
     public static String publicKeyBase64;
+    public static String salt;
+
+    public static void setSalt(String salt) {
+        SecretKey.salt = salt;
+    }
 
     public void setPrivateKeyBase64(String privateKeyBase64) {
         this.privateKeyBase64 = privateKeyBase64;

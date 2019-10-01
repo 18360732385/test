@@ -12,7 +12,7 @@ public class Result implements Serializable {
 
     private String code; //响应业务状态
     private String msg; //响应消息
-    private Object data = null; //响应中的数据
+    private Object content = null; //响应中的数据
 
 
     public String getCode() {
@@ -31,23 +31,18 @@ public class Result implements Serializable {
         this.msg = msg;
     }
 
-    public Object getData() {
-        return data;
+    public Object getContent() {
+        return content;
     }
 
-    public void setData(Object data) {
-        this.data = data;
-    }
-
-    public void setResultCode(ResultCode resultCode){
-        this.code = resultCode.code();
-        this.msg = resultCode.msg();
+    public void setContent(Object content) {
+        this.content = content;
     }
 
     Result(ResultCode resultCode, Object data){
         this.code = resultCode.code();
         this.msg = resultCode.msg();
-        this.data = data;
+        this.content = data;
     }
 
     Result(ResultCode resultCode){
@@ -64,14 +59,14 @@ public class Result implements Serializable {
     }
 
     //成功
-    public static Result success(Object data){
-        Result result = new Result(ResultCode.SUCCESS,data);
+    public static Result success(Object content){
+        Result result = new Result(ResultCode.SUCCESS,content);
         return result;
     }
 
     //失败
-    public static Result failure(ResultCode resultCode, Object data) {
-        Result result = new Result(resultCode,data);
+    public static Result failure(ResultCode resultCode, Object content) {
+        Result result = new Result(resultCode,content);
         return result;
     }
 
@@ -93,7 +88,7 @@ public class Result implements Serializable {
         return "Result{" +
                 "code='" + code + '\'' +
                 ", msg='" + msg + '\'' +
-                ", data=" + data +
+                ", content=" + content +
                 '}';
     }
 
