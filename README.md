@@ -18,6 +18,8 @@ LogFilter：日志过滤器
 
 aspect：打印日志（弃用）
 
+RequestWrapper和ResponseWrapper：重写的请求响应体
+
 自定义异常、全局异常处理
 
 自定义响应体、自定义响应码enum
