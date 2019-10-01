@@ -16,23 +16,21 @@ import com.zj.stream.util.ResponseWrapper;
 import com.zj.stream.util.RsaUtil;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
- * 报文加解密过滤器
+ * 报文加解密过滤器（sign、content）
  * 关于过滤器中无法注入bean问题，需要设置改bean的变量为staric属性
  */
 //@Component
 //@EnableConfigurationProperties({MyKey.class})
-@Configuration
 public class SecretFilter implements Filter {
 
     String transformation = "RSA";//加密算法
@@ -54,11 +52,14 @@ public class SecretFilter implements Filter {
 
         System.out.println("doFilter测试私钥是否为空： "+ SecretKey.privateKeyBase64);
 
-        long start = new Date().getTime();
+        long start = System.currentTimeMillis();
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         ResponseWrapper responseWrapper = new ResponseWrapper(response);
+
+        //为每一个请求添加全局流水号
+        request.setAttribute("globalId", UUID.randomUUID().toString());
 
         //请求报文解密（可以判断路径是否需要解密）
         RequestWrapper requestWrapper = reuqestDecrypt(request);
@@ -76,7 +77,7 @@ public class SecretFilter implements Filter {
         }
 
 
-        System.out.println("SecretFilter 耗时:" + (new Date().getTime() - start));
+        System.out.println("SecretFilter 耗时: " + (System.currentTimeMillis() - start)+"ms");
         System.out.println("SecretFilter 结束");
     }
 
