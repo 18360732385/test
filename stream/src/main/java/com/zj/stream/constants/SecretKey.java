@@ -14,7 +14,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
- * 配置信息加载java类，一定要有set方法,变量设置为static
+ * yml配置信息加载java类，一定要有set方法,变量设置为static
  * 如果想在filter中加载此类，注入bean，或者直接在doFilter里使用
  */
 @Component()
